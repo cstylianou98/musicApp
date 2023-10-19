@@ -1,18 +1,37 @@
-import React, {useState} from 'react'
+import React from "react"
+import Nav from './Nav'
+import { ArtistInfo, SongList, Paragraph} from './components'
+import './App.css'
+import {Routes, Route} from 'react-router-dom'
+import { useState } from 'react'
 
-import { ArtistInfo, SongList } from './components'
+import { useSelector, useDispatch } from "react-redux"
+import { actionCreators } from './action-creators'
+import { bindActionCreators} from 'redux'
 
-export default function App(){
+
+
+
+
+
+function App(){
+
     const [likedSongs, setLikedSongs] = useState([]) //initiated with empty array as we are gonna store songs in empty array
+
     return (
-        <div>
-        <h1>My Favourite Artist</h1>
-        <ArtistInfo />
-        <SongList
-        likedSongs={likedSongs}
-        setLikedSongs={setLikedSongs}
-        />
+        <div className="App">
+            <Routes>
+                <Route path='/' element={<Nav/>}>
+                    <Route index element={<ArtistInfo/>} />
+                    <Route path='about' element={<Paragraph/>} />
+                    <Route path='hits' element={<SongList likedSongs={likedSongs} setLikedSongs={setLikedSongs}/>}/>
+                    <Route path='*' element={<h1>Page Not Found</h1>}/>
+                </Route>
+            </Routes>
+            
         </div>
     )
 
 }
+
+export default App

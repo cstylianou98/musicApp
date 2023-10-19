@@ -1,23 +1,41 @@
 import React, {useState} from 'react'
 
-export default function SongList({likedSongs, setLikedSongs}){
+function SongList({likedSongs, setLikedSongs}){
+
+    const [songs, setSongs] = useState([
+        {name: 'Better Days', releaseDate: '24 September 2021'},
+        {name: 'Outnumbered', releaseDate: '14 September 2019'},
+        {name: 'Power Over Me', releaseDate: '16 October 2018' },
+    ])
 
     const likeStatus = (songName) => {
         return likedSongs.includes(songName)
     }
 
     const handlingLike = (songName) => {
-        if (likeStatus(songName)) { // if its already liked, an array that contains everything except the liked song is created effectively removing the liked one.
-            setLikedSongs(likedSongs.filter((song)=> song !==songName))
-         } else { // if its not already liked it adds it to the array (likedSongs is an array)
-            setLikedSongs([...likedSongs, songName])
-        } 
+        const updatedSongs = songs.map((song)=> {
+            if (song.name === songName){
+                return {...song, liked: !likeStatus(songName)
+                }
+            }
+            return song;
+        })
+
+        setSongs(updatedSongs)
+
+        if (likeStatus(songName)){
+            setLikedSongs(likedSongs.filter((song)=>song !==songName))
+        } else {
+            setLikedSongs([...likedSongs, songName]);
+        }
+
     }
 
+    // THIS IS WHERE I LEFT OFF CONTINUE HERE!!!
     
     return (
         <>
-        <h2>Songs</h2>
+        <h1>Song Hits</h1>
         <ul>
             <li>
                 Better Days - 24 September 2021 - 
@@ -36,3 +54,5 @@ export default function SongList({likedSongs, setLikedSongs}){
         </>
     )
 }
+
+export default SongList
